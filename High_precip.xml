@@ -707,9 +707,9 @@
   </ParameterList>
 
   <ParameterList name="cycle driver" type="ParameterList">
-    <Parameter name="start time" type="double" value="274.0"/>
+    <Parameter name="start time" type="double" value="5384.0"/>
     <Parameter name="start time units" type="string" value="d"/>
-    <Parameter name="end time" type="double" value="638.0"/>
+    <Parameter name="end time" type="double" value="5749.0"/>
     <Parameter name="end time units" type="string" value="d"/>
     <Parameter name="wallclock duration [hrs]" type="double" value="23.9"/>
     <Parameter name="max time step size [s]" type="double" value="86400.0"/>
@@ -1191,7 +1191,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="tabular"/>
-              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_typical_2005_2023.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_smoothed_2005_2023.h5"/>
               <Parameter name="x header" type="string" value="time [s]"/>
               <Parameter name="y header" type="string" value="NLCD Deciduous Forest LAI [-]"/>
             </ParameterList>
@@ -1201,7 +1201,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="tabular"/>
-              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_typical_2005_2023.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_smoothed_2005_2023.h5"/>
               <Parameter name="x header" type="string" value="time [s]"/>
               <Parameter name="y header" type="string" value="NLCD Developed, Low Intensity LAI [-]"/>
             </ParameterList>
@@ -1211,7 +1211,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="tabular"/>
-              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_typical_2005_2023.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_smoothed_2005_2023.h5"/>
               <Parameter name="x header" type="string" value="time [s]"/>
               <Parameter name="y header" type="string" value="NLCD Developed, Medium Intensity LAI [-]"/>
             </ParameterList>
@@ -1229,7 +1229,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="tabular"/>
-              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_typical_2005_2023.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_smoothed_2005_2023.h5"/>
               <Parameter name="x header" type="string" value="time [s]"/>
               <Parameter name="y header" type="string" value="NLCD Pasture LAI [-]"/>
             </ParameterList>
@@ -1239,7 +1239,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="tabular"/>
-              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_typical_2005_2023.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_MODIS_LAI_smoothed_2005_2023.h5"/>
               <Parameter name="x header" type="string" value="time [s]"/>
               <Parameter name="y header" type="string" value="NLCD Woody Wetlands LAI [-]"/>
             </ParameterList>
@@ -1261,7 +1261,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="bilinear and time"/>
-              <Parameter name="file" type="string" value="../data/daymet_high_precip.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_daymet-2005-2024.h5"/>
               <Parameter name="time header" type="string" value="time [s]"/>
               <Parameter name="row header" type="string" value="y [m]"/>
               <Parameter name="row coordinate" type="string" value="y"/>
@@ -1276,22 +1276,30 @@
         <Parameter name="evaluator type" type="string" value="incoming longwave radiation"/>
       </ParameterList>
       <ParameterList name="surface-precipitation_rain" type="ParameterList">
-        <Parameter name="evaluator type" type="string" value="independent variable"/>
-        <ParameterList name="function" type="ParameterList">
-          <ParameterList name="surface domain" type="ParameterList">
-            <Parameter name="region" type="string" value="surface domain"/>
-            <Parameter name="component" type="string" value="cell"/>
+        <Parameter name="evaluator type" type="string" value="linear functional"/>
+        <ParameterList name="dependencies" type="ParameterList">
+          <ParameterList name="precipitation_rain_raw" type="ParameterList">
+            <Parameter name="evaluator type" type="string" value="independent variable"/>
             <ParameterList name="function" type="ParameterList">
-              <Parameter name="function type" type="string" value="bilinear and time"/>
-              <Parameter name="file" type="string" value="../data/daymet_high_precip.h5"/>
-              <Parameter name="time header" type="string" value="time [s]"/>
-              <Parameter name="row header" type="string" value="y [m]"/>
-              <Parameter name="row coordinate" type="string" value="y"/>
-              <Parameter name="column header" type="string" value="x [m]"/>
-              <Parameter name="column coordinate" type="string" value="x"/>
-              <Parameter name="value header" type="string" value="precipitation rain [m s^-1]"/>
+              <ParameterList name="surface domain" type="ParameterList">
+                <Parameter name="region" type="string" value="surface domain"/>
+                <Parameter name="component" type="string" value="cell"/>
+                <ParameterList name="function" type="ParameterList">
+                  <Parameter name="function type" type="string" value="bilinear and time"/>
+                  <Parameter name="file" type="string" value="../data/efpc_daymet-2005-2024.h5"/>
+                  <Parameter name="time header" type="string" value="time [s]"/>
+                  <Parameter name="row header" type="string" value="y [m]"/>
+                  <Parameter name="row coordinate" type="string" value="y"/>
+                  <Parameter name="column header" type="string" value="x [m]"/>
+                  <Parameter name="column coordinate" type="string" value="x"/>
+                  <Parameter name="value header" type="string" value="precipitation rain [m s^-1]"/>
+                </ParameterList>
+              </ParameterList>
             </ParameterList>
           </ParameterList>
+        </ParameterList>
+        <ParameterList name="linear functional coefficients" type="ParameterList">
+          <Parameter name="precipitation_rain_raw" type="double" value="1.1"/>
         </ParameterList>
       </ParameterList>
       <ParameterList name="snow-precipitation" type="ParameterList">
@@ -1302,7 +1310,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="bilinear and time"/>
-              <Parameter name="file" type="string" value="../data/daymet_high_precip.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_daymet-2005-2024.h5"/>
               <Parameter name="time header" type="string" value="time [s]"/>
               <Parameter name="row header" type="string" value="y [m]"/>
               <Parameter name="row coordinate" type="string" value="y"/>
@@ -1321,7 +1329,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="bilinear and time"/>
-              <Parameter name="file" type="string" value="../data/daymet_high_precip.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_daymet-2005-2024.h5"/>
               <Parameter name="time header" type="string" value="time [s]"/>
               <Parameter name="row header" type="string" value="y [m]"/>
               <Parameter name="row coordinate" type="string" value="y"/>
@@ -1340,7 +1348,7 @@
             <Parameter name="component" type="string" value="cell"/>
             <ParameterList name="function" type="ParameterList">
               <Parameter name="function type" type="string" value="bilinear and time"/>
-              <Parameter name="file" type="string" value="../data/daymet_high_precip.h5"/>
+              <Parameter name="file" type="string" value="../data/efpc_daymet-2005-2024.h5"/>
               <Parameter name="time header" type="string" value="time [s]"/>
               <Parameter name="row header" type="string" value="y [m]"/>
               <Parameter name="row coordinate" type="string" value="y"/>
@@ -1361,7 +1369,7 @@
               <Parameter name="function type" type="string" value="composition"/>
               <ParameterList name="function1" type="ParameterList">
                 <Parameter name="function type" type="string" value="bilinear and time"/>
-                <Parameter name="file" type="string" value="../data/daymet_high_precip.h5"/>
+                <Parameter name="file" type="string" value="../data/efpc_daymet-2005-2024.h5"/>
                 <Parameter name="time header" type="string" value="time [s]"/>
                 <Parameter name="row header" type="string" value="y [m]"/>
                 <Parameter name="row coordinate" type="string" value="y"/>
@@ -3473,7 +3481,7 @@
   </ParameterList>
 
   <ParameterList name="checkpoint" type="ParameterList">
-    <Parameter name="times start period stop" type="Array(double)" value="{274.0, 180.0, -1.0}"/>
+    <Parameter name="times start period stop" type="Array(double)" value="{0.0, 180.0, -1.0}"/>
     <Parameter name="times start period stop units" type="string" value="d"/>
   </ParameterList>
 
